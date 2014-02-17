@@ -75,6 +75,7 @@ class NVD3Chart:
         * ``x_axis_date`` - False / True
         * ``show_legend`` - False / True
         * ``show_labels`` - False / True
+        * ``show_controls`` - False / True
         * ``assets_directory`` directory holding the assets (./bower_components/)
     """
     count = 0
@@ -110,6 +111,7 @@ class NVD3Chart:
     x_axis_format = ''
     show_legend = True
     show_labels = True
+    show_controls = True
     assets_directory = './bower_components/'
 
     def __init__(self, **kwargs):
@@ -278,6 +280,10 @@ class NVD3Chart:
         """Set Graph width"""
         self.width = str(width)
 
+    def set_graph_margin_left(self, margin):
+        """Set Graph margin_left"""
+        self.margin_left = str(margin)
+
     def set_containerheader(self, containerheader):
         """Set containerheader"""
         self.containerheader = containerheader
@@ -432,8 +438,8 @@ class NVD3Chart:
         self.build_custom_tooltip()
         self.jschart += self.charttooltip
 
-        # the shape attribute in kwargs is not applied when 
-        # not allowing other shapes to be rendered 
+        # the shape attribute in kwargs is not applied when
+        # not allowing other shapes to be rendered
         if self.model == 'scatterChart':
            self.jschart += 'chart.scatter.onlyCircles(false);'
 
@@ -442,6 +448,12 @@ class NVD3Chart:
                 self.jschart += stab(2) + "chart.showLegend(true);\n"
             else:
                 self.jschart += stab(2) + "chart.showLegend(false);\n"
+
+        #Show controls (grouped/stacked)
+        if self.show_legend:
+            self.jschart += stab(2) + "chart.showControls(true);\n"
+        else:
+            self.jschart += stab(2) + "chart.showControls(false);\n"
 
         #showLabels only supported in pieChart
         if self.model == 'pieChart':
