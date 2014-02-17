@@ -139,6 +139,7 @@ class NVD3Chart:
         self.stacked = kwargs.get('stacked', False)
         self.resize = kwargs.get('resize', False)
         self.show_legend = kwargs.get('show_legend', True)
+        self.show_controls = kwargs.get('show_controls', True)
         self.show_labels = kwargs.get('show_labels', True)
         self.tag_script_js = kwargs.get('tag_script_js', True)
         self.chart_attr = kwargs.get("chart_attr", {})
@@ -279,10 +280,6 @@ class NVD3Chart:
     def set_graph_width(self, width):
         """Set Graph width"""
         self.width = str(width)
-
-    def set_graph_margin_left(self, margin):
-        """Set Graph margin_left"""
-        self.margin_left = str(margin)
 
     def set_containerheader(self, containerheader):
         """Set containerheader"""
@@ -450,7 +447,7 @@ class NVD3Chart:
                 self.jschart += stab(2) + "chart.showLegend(false);\n"
 
         #Show controls (grouped/stacked)
-        if self.show_legend:
+        if self.show_controls:
             self.jschart += stab(2) + "chart.showControls(true);\n"
         else:
             self.jschart += stab(2) + "chart.showControls(false);\n"
