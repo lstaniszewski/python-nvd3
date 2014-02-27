@@ -95,7 +95,20 @@ class multiBarHorizontalChart(NVD3Chart):
         height = kwargs.get('height', 450)
         width = kwargs.get('width', None)
 
-        self.create_x_axis('xAxis', format=kwargs.get('x_axis_format', '.2f'))
+        if kwargs.get('x_is_date', False):
+            self.set_date_flag(True)
+
+
+            with_focus_chart_1 = """function(d) {
+                var dx = data_%s[0].values[d] && data_%s[0].values[d].x || 0;
+                if (dx == 0) { return d3.time.format('%s')(new Date(d)) }
+                return null;
+            }""" % (self.name, self.name, kwargs.get('x_axis_format', '%d %b %Y'))
+            self.create_x_axis('xAxis', format=with_focus_chart_1, date=False, custom_format=True)
+            self.set_custom_tooltip_flag(True)
+        else:
+            self.create_x_axis('xAxis', format=".2f")
+
         self.create_y_axis('yAxis', format=kwargs.get('y_axis_format', '.2f'))
         # must have a specified height, otherwise it superimposes both chars
         if height:

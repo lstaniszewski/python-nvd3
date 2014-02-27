@@ -447,10 +447,11 @@ class NVD3Chart:
                 self.jschart += stab(2) + "chart.showLegend(false);\n"
 
         #Show controls (grouped/stacked)
-        if self.show_controls:
-            self.jschart += stab(2) + "chart.showControls(true);\n"
-        else:
-            self.jschart += stab(2) + "chart.showControls(false);\n"
+        if self.model == 'multiBarHorizontalChart':
+            if self.show_controls:
+                self.jschart += stab(2) + "chart.showControls(false);\n"
+            else:
+                self.jschart += stab(2) + "chart.showControls(false);\n"
 
         #showLabels only supported in pieChart
         if self.model == 'pieChart':
